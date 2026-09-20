@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Quản Trị Sản Phẩm</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <!-- Compiled SCSS -->
+    <link rel="stylesheet" href="./css/admin.css" />
+  </head>
+
+  <body class="bg-light">
+    <header class="admin-header">
+      <div class="container">
+        <div class="admin-header__content">
+          <h1 class="admin-header__logo">Quản Trị Sản Phẩm</h1>
+
+          <a href="./index.html" class="btn btn-light">
+            <i class="bi bi-shop"></i>
+            Về trang bán hàng
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container py-4">
+      <div class="admin__toolbar">
+        <button id="btnThemSP" class="btn btn-success">
+          <i class="bi bi-plus-lg"></i>
+          Thêm sản phẩm
+        </button>
+
+        <div class="admin__filters">
+          <input
+            id="txtTimKiem"
+            type="text"
+            class="form-control"
+            placeholder="Tìm kiếm theo tên..."
+          />
+
+          <select id="selectSapXep" class="form-select">
+            <option value="">Sắp xếp: Mặc định</option>
+
+            <option value="asc">Giá tăng dần</option>
+
+            <option value="desc">Giá giảm dần</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="loading" class="text-center py-5 d-none">
+        <div class="spinner-border text-primary"></div>
+
+        <p class="mt-2">Đang tải sản phẩm...</p>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered table-hover align-middle admin__table"
+            >
+              <thead class="table-dark">
+                <tr>
+                  <th>STT</th>
+
+                  <th>Ảnh</th>
+
+                  <th>Tên</th>
+
+                  <th>Giá</th>
+
+                  <th>Loại</th>
+
+                  <th>Màn hình</th>
+
+                  <th>Camera sau</th>
+
+                  <th>Camera trước</th>
+
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+
+              <tbody id="tbodySanPham"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- THÊM / SỬA SẢN PHẨM -->
+    <div class="modal fade" id="modalSanPham" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTieuDe">Thêm sản phẩm</h5>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <form id="formSanPham" novalidate>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label for="name" class="form-label">Tên sản phẩm</label>
+
+                  <input id="name" type="text" class="form-control" />
+
+                  <span class="sp-thongbao" id="tbName"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label for="price" class="form-label">Giá ($)</label>
+
+                  <input id="price" type="text" class="form-control" />
+
+                  <span class="sp-thongbao" id="tbPrice"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label for="screen" class="form-label">Màn hình</label>
+
+                  <input id="screen" type="text" class="form-control" />
+
+                  <span class="sp-thongbao" id="tbScreen"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label for="type" class="form-label">Loại sản phẩm</label>
+
+                  <select id="type" class="form-select">
+                    <option value="">-- Chọn loại --</option>
+
+                    <option value="iphone">iPhone</option>
+
+                    <option value="samsung">Samsung</option>
+                  </select>
+
+                  <span class="sp-thongbao" id="tbType"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label for="backCamera" class="form-label">Camera sau</label>
+
+                  <input id="backCamera" type="text" class="form-control" />
+
+                  <span class="sp-thongbao" id="tbBackCamera"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label for="frontCamera" class="form-label"
+                    >Camera trước</label
+                  >
+
+                  <input id="frontCamera" type="text" class="form-control" />
+
+                  <span class="sp-thongbao" id="tbFrontCamera"></span>
+                </div>
+
+                <div class="col-12">
+                  <label for="img" class="form-label">Link hình ảnh</label>
+
+                  <input
+                    id="img"
+                    type="text"
+                    class="form-control"
+                    placeholder="https://..."
+                  />
+
+                  <span class="sp-thongbao" id="tbImg"></span>
+                </div>
+
+                <div class="col-12">
+                  <label for="desc" class="form-label">Mô tả</label>
+
+                  <textarea id="desc" class="form-control" rows="3"></textarea>
+
+                  <span class="sp-thongbao" id="tbDesc"></span>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+
+            <button type="button" id="btnLuu" class="btn btn-primary">
+              Lưu
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalXoa" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Xác nhận xóa</h5>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <p id="noiDungXoa" class="mb-0">
+              Bạn có chắc muốn xóa sản phẩm này?
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Hủy
+            </button>
+
+            <button type="button" id="btnXacNhanXoa" class="btn btn-danger">
+              Xóa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="./js/pages/admin.js"></script>
+  </body>
+</html>
