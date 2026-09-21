@@ -56,7 +56,7 @@ function renderProducts(products) {
 
           <p>
             <strong>Camera Sau:</strong>
-            ${product.blackCamera}
+            ${product.backCamera}
           </p>
 
           <p>

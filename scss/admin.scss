@@ -1,0 +1,107 @@
+$mau-chinh: navy;
+$mau-loi: red;
+
+.admin-header {
+  background-color: $mau-chinh;
+  color: white;
+  padding: 20px 0;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  &__logo {
+    margin: 0;
+    font-size: 32px;
+    font-weight: bold;
+  }
+}
+
+.admin {
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+
+    margin-bottom: 20px;
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    input {
+      min-width: 240px;
+    }
+
+    select {
+      min-width: 180px;
+    }
+  }
+
+  &__thumb {
+    width: 60px;
+    height: 60px;
+
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  &__table {
+    th,
+    td {
+      vertical-align: middle;
+    }
+
+    td:last-child {
+      white-space: nowrap;
+    }
+  }
+}
+
+.sp-thongbao {
+  display: block;
+
+  min-height: 18px;
+
+  color: $mau-loi;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .admin-header__logo {
+    font-size: 24px;
+  }
+
+  .admin__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin__filters {
+    flex-direction: column;
+    align-items: stretch;
+
+    input,
+    select {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+  .admin__table {
+    font-size: 14px;
+  }
+
+  .admin__thumb {
+    width: 45px;
+    height: 45px;
+  }
+}
